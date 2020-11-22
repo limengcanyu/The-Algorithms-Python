@@ -1,5 +1,6 @@
 import sys
 
+
 class Letter:
     def __init__(self, letter, freq):
         self.letter = letter
@@ -7,7 +8,7 @@ class Letter:
         self.bitstring = ""
 
     def __repr__(self):
-        return f'{self.letter}:{self.freq}'
+        return f"{self.letter}:{self.freq}"
 
 
 class TreeNode:
@@ -18,9 +19,9 @@ class TreeNode:
 
 
 def parse_file(file_path):
-    """ 
+    """
     Read the file and build a dict of all letters and their
-    frequences, then convert the dict into a list of Letters.
+    frequencies, then convert the dict into a list of Letters.
     """
     chars = {}
     with open(file_path) as f:
@@ -29,15 +30,11 @@ def parse_file(file_path):
             if not c:
                 break
             chars[c] = chars[c] + 1 if c in chars.keys() else 1
-    letters = []
-    for char, freq in chars.items():
-        letter = Letter(char, freq)
-        letters.append(letter)
-    letters.sort(key=lambda l: l.freq)
-    return letters
+    return sorted([Letter(c, f) for c, f in chars.items()], key=lambda l: l.freq)
+
 
 def build_tree(letters):
-    """ 
+    """
     Run through the list of Letters and build the min heap
     for the Huffman Tree.
     """
@@ -50,8 +47,9 @@ def build_tree(letters):
         letters.sort(key=lambda l: l.freq)
     return letters[0]
 
+
 def traverse_tree(root, bitstring):
-    """ 
+    """
     Recursively traverse the Huffman Tree to set each
     Letter's bitstring, and return the list of Letters
     """
@@ -63,16 +61,17 @@ def traverse_tree(root, bitstring):
     letters += traverse_tree(root.right, bitstring + "1")
     return letters
 
+
 def huffman(file_path):
-    """ 
+    """
     Parse the file, build the tree, then run through the file
-    again, using the list of Letters to find and print out the 
+    again, using the list of Letters to find and print out the
     bitstring for each letter.
     """
     letters_list = parse_file(file_path)
     root = build_tree(letters_list)
     letters = traverse_tree(root, "")
-    print(f'Huffman Coding of {file_path}: ')
+    print(f"Huffman Coding of {file_path}: ")
     with open(file_path) as f:
         while True:
             c = f.read(1)
@@ -81,6 +80,7 @@ def huffman(file_path):
             le = list(filter(lambda l: l.letter == c, letters))[0]
             print(le.bitstring, end=" ")
     print()
+
 
 if __name__ == "__main__":
     # pass the file path to the huffman function
