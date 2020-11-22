@@ -24,7 +24,7 @@ def split(string: str, separator: str = " ") -> list:
             split_words.append(string[last_index:index])
             last_index = index + 1
         elif index + 1 == len(string):
-            split_words.append(string[last_index : index + 1])
+            split_words.append(string[last_index: index + 1])
     return split_words
 
 
@@ -32,3 +32,6 @@ if __name__ == "__main__":
     from doctest import testmod
 
     testmod()
+
+result = split("11/22/63", '/')
+print("split result: ", result)
